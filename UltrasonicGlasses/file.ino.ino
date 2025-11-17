@@ -6,8 +6,8 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  buzzer();
+  // put your main code here, to run repeatedly;
+  buzzer();adada
   LED();
   ultrasonicsensor();
   delay(100);
