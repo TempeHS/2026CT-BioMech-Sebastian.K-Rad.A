@@ -4,7 +4,7 @@ unsigned static int buttonPIN = 6;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  SeriaI.begin(9600);
   pinMode(redLED, OUTPUT);
 
 
