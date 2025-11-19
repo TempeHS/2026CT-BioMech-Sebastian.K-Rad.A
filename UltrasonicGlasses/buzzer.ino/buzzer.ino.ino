@@ -1,25 +1,34 @@
-// Define the pins for the button and the buzzer
-const int buttonPin = 2; // Connect the button to digital pin 2
-const int buzzerPin = 3; // Connect the buzzer to digital pin 3
+  // Library for Grove Ultrasonic Ranger
+
+const int BUTTON_PIN = 5;    // Grove D5
+const int BUZZER_PIN = 6;    // Grove D6 (PWM)
+const int ULTRASONIC_PIN = 7; // Grove D7
+
+Ultrasonic ultrasonic(ULTRASONIC_PIN); // Create ultrasonic object
 
 void setup() {
-  // Initialize the button pin as an input with internal pull-up resistor
-  pinMode(buttonPin, INPUT_PULLUP); 
-  // Initialize the buzzer pin as an output
-  pinMode(buzzerPin, OUTPUT);
+  Serial.begin(9600);
+  pinMode(BUTTON_PIN, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  Serial.println("Press button to buzz with pitch based on distance!");
 }
 
 void loop() {
-  // Read the state of the button
-  // INPUT_PULLUP means the button will read LOW when pressed
-  int buttonState = digitalRead(buttonPin);
+  int buttonState = digitalRead(BUTTON_PIN);
 
-  // Check if the button is pressed (LOW state)
-  if (buttonState == LOW) {
-    // If pressed, turn on the buzzer with a specific tone (e.g., 1000 Hz)
-    tone(buzzerPin, 1000); 
+  if (buttonState == HIGH) {
+    long distance = ultrasonic.MeasureInCentimeters();
+    // Map distance (e.g., 3-100 cm) to frequency (e.g., 200-2000 Hz)
+    int freq = map(distance, 3, 100, 200, 2000);
+    freq = constrain(freq, 200, 2000); // Keep frequency in range
+    tone(BUZZER_PIN, freq);
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.print(" cm | Frequency: ");
+    Serial.println(freq);
   } else {
-    // If not pressed, turn off the buzzer
-    noTone(buzzerPin);
+    noTone(BUZZER_PIN); // Stop buzzer
   }
+
+  delay(50); // Debounce
 }
