@@ -2,7 +2,7 @@ unsigned static int greenLED = 9;
 unsigned static int redLED = 5;
 unsigned static int buttonPIN = 6; 
 
-int leftLED = 2;
+int leftLED = 1;
 int rightLED = 2;
 
 //int lastButtonState = HIGH;  
@@ -45,15 +45,21 @@ void loop() {
 // lastButtonState = reading;
 
 
+//
+//int buttonState = digitalRead(buttonPIN);
+//if (buttonState != leftLED) {
+//  leftLED = buttonState;
+//}
+//
+//int lastButtonState = HIGH; // Tracks previous button state
+//  lastButtonState = buttonState;
+//  // Detect button press (HIGH to LOW)
+//  if (lastButtonState == HIGH && buttonState == LOW) {
+//    leftLED = (leftLED + 1) % 3; // Cycle through 0, 1, 2
+//  }
+//
 
-int buttonState = digitalRead(buttonPIN);
-if (buttonState != leftLED) {
-  leftLED = buttonState;
-}
-
-if (buttonState == 1 + )
-
-Serial.println(buttonState);
+//Serial.println(buttonState);
 
  if (rightLED == 2) {
   analogWrite(greenLED, 255); 
