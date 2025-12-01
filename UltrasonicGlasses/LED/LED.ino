@@ -43,7 +43,7 @@ void loop() {
   if (leftLED == 2) {
     analogWrite(redLED, 255);
   } else if (leftLED == 1) {
-    analogWrite(redLED, 100);
+    analogWrite(redLED, 125);
   } else {
     analogWrite(redLED, 0);
   }
@@ -55,7 +55,7 @@ void rightloop() {
   if (rightLED == 2) {
     analogWrite(greenLED, 255);
   } else if (rightLED == 1) {
-    analogWrite(greenLED, 100);
+    analogWrite(greenLED, 125);
   } else {
     analogWrite(greenLED, 0);
   }
