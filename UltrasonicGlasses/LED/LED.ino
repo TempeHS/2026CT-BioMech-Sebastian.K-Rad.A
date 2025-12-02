@@ -45,7 +45,7 @@ void loop() {
     analogWrite(redLED, 255);
   } else if (leftLED == 1) {
     analogWrite(redLED, 125);
-  } else {
+  } else {          
     analogWrite(redLED, 0);
   }
 }
