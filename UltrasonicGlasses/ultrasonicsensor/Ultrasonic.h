@@ -18,7 +18,7 @@ class Ultrasonic {
     void setMaxDistance(unsigned long dist) {timeout = dist*CM*2;}
 
   private:
-    uint8_t trig;
+    uint8_t trig; 
     uint8_t echo;
     boolean threePins = false;
     unsigned long previousMicros;
