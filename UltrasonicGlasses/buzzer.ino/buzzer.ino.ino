@@ -1,16 +1,61 @@
-const int buttonPin = 6; // Pin where the button is connected
-const int buzzerPin = 7; // Pin where the buzzer is connected
+#include "Ultrasonic.h"
+#include <U8g2lib.h>
+#include <Wire.h>
+
+const int BUTTON_PIN = 5;      // Grove D5
+const int BUZZER_PIN = 6;      // Grove D6 (PWM)
+const int ULTRASONIC_PIN = 7;  // Grove D7
+
+Ultrasonic ultrasonic(ULTRASONIC_PIN);
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
 
 void setup() {
-    pinMode(buttonPin, INPUT_PULLUP); // Set button pin as input with pull-up resistor
-    pinMode(buzzerPin, OUTPUT); // Set buzzer pin as output
+  Serial.begin(9600);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  // Initialize OLED display
+  u8g2.begin();
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_ncenB08_tr);
+  u8g2.drawStr(0, 15, "Ultrasonic Ready!");
+  u8g2.sendBuffer();
+  
+  Serial.println("Press button to activate distance-based buzzer pitch!");
+  delay(2000);
 }
 
 void loop() {
-    if (digitalRead(buttonPin) == LOW) { // Check if button is pressed
-        tone(buzzerPin, 150); // Play a tone at 1000 Hz
-        delay(500); // Play for 500 milliseconds
-        noTone(buzzerPin); // Stop the tone
-        delay(500); // Wait for a moment before checking again
-    }
+  int buttonState = digitalRead(BUTTON_PIN);
+  long distance = ultrasonic.MeasureInCentimeters();
+
+  // Update OLED display
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_ncenB14_tr);  // Larger font for distance
+  u8g2.drawStr(0, 25, "Distance:");
+  
+  // Display distance value
+  char distanceStr[16];
+  sprintf(distanceStr, "%ld cm", distance);
+  u8g2.drawStr(0, 50, distanceStr);
+  
+  u8g2.sendBuffer();  // Update display
+
+  if (buttonState == LOW) {  // Button pressed (INPUT_PULLUP: LOW = pressed)
+    // Map distance (3-100 cm) to frequency (2000-200 Hz)
+    // Closer distance = higher pitch
+    int freq = map(distance, 3, 100, 500, 100);
+    freq = constrain(freq, 100, 500);
+    
+    tone(BUZZER_PIN, freq);
+    
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.print(" cm | Frequency: ");
+    Serial.println(freq);
+  } else {
+    noTone(BUZZER_PIN);  // Stop buzzer when button released
+  }
+
+  delay(50);  // Update rate
 }
