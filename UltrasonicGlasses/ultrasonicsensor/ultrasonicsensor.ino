@@ -49,15 +49,15 @@ void loop() {
   Serial.print(RangeInCentimeters); // 0~400cm
   Serial.println(" cm");
 
-if (SensorState == 1 + RangeInCentimeters >= 20) {
-  redLED = 0;
-  } else (RangeInCentimeters <= 5); {
-    redLED = 2;
-  }
+//f (SensorState == 1 + RangeInCentimeters >= 20) {
+// redLED = 0;
+// } else (RangeInCentimeters <= 5); {
+//   redLED = 2;
+// }
   
   // MAP distance to brightness (0-255)
   // Close (5cm) = bright (255), Far (50cm) = dim (0)
-  leftLED = map(RangeInCentimeters, 5, 50, 255, 0);
+  leftLED = map(RangeInCentimeters, 50, 200, 255, 0);
   
   // Constrain to valid PWM range
   leftLED = constrain(leftLED, 0, 255);
@@ -76,7 +76,7 @@ void leftloop() {
 
  // int LbuttonPressed = digitalRead(LbuttonPIN);
 //
- // if (LlastButtonState == HIGH && LbuttonPressed == LOW) {
+ // if (LlastButtonState == HIGH && LbuttonPressed == LOW) 
  //   LbuttonState = (LbuttonState + 1) % 3;
  // }
  // LlastButtonState = LbuttonPressed;
