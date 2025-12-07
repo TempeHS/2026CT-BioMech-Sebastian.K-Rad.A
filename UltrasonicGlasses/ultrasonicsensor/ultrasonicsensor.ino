@@ -5,8 +5,8 @@ Ultrasonic myUltraSonicSensor(8);
 unsigned static int greenLED = 5;
 unsigned static int redLED = 3;
 
-unsigned static int LbuttonPIN = 6;
-unsigned static int RbuttonPIN = 7;
+//unsigned static int LbuttonPIN = 6;
+//unsigned static int RbuttonPIN = 7;
 
 void leftloop();
 void rightloop();
@@ -19,11 +19,11 @@ int rightLED = 2;
 
 int SensorState = 1;
 
-int LbuttonState = 0;
-int LlastButtonState = HIGH;
+//int LbuttonState = 0;
+//int LlastButtonState = HIGH;
 
-int RbuttonState = 0;
-int RlastButtonState = HIGH;
+//int RbuttonState = 0;
+//int RlastButtonState = HIGH;
 
 
 void setup() {
@@ -33,16 +33,14 @@ void setup() {
 
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
-  pinMode(LbuttonPIN, INPUT);
-  pinMode(RbuttonPIN, INPUT);
+  //pinMode(LbuttonPIN, INPUT);
+  //pinMode(RbuttonPIN, INPUT);
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
-
-  
   delay(200);
 
   unsigned long RangeInCentimeters;
@@ -56,6 +54,20 @@ if (SensorState == 1 + RangeInCentimeters >= 20) {
   } else (RangeInCentimeters <= 5); {
     redLED = 2;
   }
+  
+  // MAP distance to brightness (0-255)
+  // Close (5cm) = bright (255), Far (50cm) = dim (0)
+  leftLED = map(RangeInCentimeters, 5, 50, 255, 0);
+  
+  // Constrain to valid PWM range
+  leftLED = constrain(leftLED, 0, 255);
+  
+  // Write brightness to LED
+  analogWrite(redLED, leftLED);
+  analogWrite(greenLED, rightLED);
+  
+  Serial.print("LED Brightness: ");
+  Serial.println(leftLED);
 }
 
 
