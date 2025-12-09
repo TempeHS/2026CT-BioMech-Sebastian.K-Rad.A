@@ -56,12 +56,24 @@ void loop() {
 // }
   
   // MAP distance to brightness (0-255)
+ 
+ 
+ 
+ 
   // Close (5cm) = bright (255), Far (50cm) = dim (0)
-  leftLED = map(RangeInCentimeters, 50, 200, 255, 0);
-  
+if (SensorState == 1)  {
+  leftLED = map(RangeInCentimeters, 20, 100, 255, 0);
+
   // Constrain to valid PWM range
   leftLED = constrain(leftLED, 0, 255);
-  
+} 
+
+if (SensorState == 2)  {
+  rightLED = map(RangeInCentimeters, 20, 100, 255, 0);
+
+  // Constrain to valid PWM range
+  rightLED = constrain(rightLED, 0, 255);
+} 
   // Write brightness to LED
   analogWrite(redLED, leftLED);
   analogWrite(greenLED, rightLED);
