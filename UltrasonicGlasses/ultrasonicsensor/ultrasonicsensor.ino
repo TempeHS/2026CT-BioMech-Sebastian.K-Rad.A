@@ -4,7 +4,7 @@ Ultrasonic myUltraSonicSensor(8);
 
 unsigned static int greenLED = 5;
 unsigned static int redLED = 3;
-
+unsigned static int buzzerpin = 4;
 //unsigned static int LbuttonPIN = 6;
 //unsigned static int RbuttonPIN = 7;
 
@@ -33,6 +33,7 @@ void setup() {
 
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
+  pinMode(buzzerpin, OUTPUT);
   //pinMode(LbuttonPIN, INPUT);
   //pinMode(RbuttonPIN, INPUT);
 
@@ -62,14 +63,14 @@ void loop() {
  
   // Close (5cm) = bright (255), Far (50cm) = dim (0)
 if (SensorState == 1)  {
-  leftLED = map(RangeInCentimeters, 20, 100, 255, 0);
-
+  leftLED = map(RangeInCentimeters, 5, 100, 255, 0);
+  buzzerpin = map(RangeInCentimeters, 5, 100, 255, 0);
   // Constrain to valid PWM range
   leftLED = constrain(leftLED, 0, 255);
 } 
 
 if (SensorState == 2)  {
-  rightLED = map(RangeInCentimeters, 20, 100, 255, 0);
+  rightLED = map(RangeInCentimeters, 5, 100, 255, 0);
 
   // Constrain to valid PWM range
   rightLED = constrain(rightLED, 0, 255);
