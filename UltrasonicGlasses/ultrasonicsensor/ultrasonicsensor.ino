@@ -47,19 +47,18 @@ void loop() {
   unsigned long RangeInCentimeters;
 
   RangeInCentimeters = myUltraSonicSensor.distanceRead(); // two measurements 
-  Serial.print(RangeInCentimeters); // 0~400cm
-  Serial.println(" cm");
+  
 
 //f (SensorState == 1 + RangeInCentimeters >= 20) {
 // redLED = 0;
 // } else (RangeInCentimeters <= 5); {
 //   redLED = 2;
 // }
-  
-  // MAP distance to brightness (0-255)
  
- 
- 
+ int freq = map(RangeInCentimeters, 5, 100, 500, 100);
+    freq = constrain(freq, 0, 700);
+    
+    tone(buzzerpin, freq);
  
   // Close (5cm) = bright (255), Far (50cm) = dim (0)
 if (SensorState == 1)  {
@@ -79,8 +78,12 @@ if (SensorState == 2)  {
   analogWrite(redLED, leftLED);
   analogWrite(greenLED, rightLED);
   
-  Serial.print("LED Brightness: ");
+  Serial.print("Brightness: ");
   Serial.println(leftLED);
+  Serial.print("Frequency:");
+  Serial.println(freq);
+  Serial.print("Distance:"); // 0~400cm
+  Serial.println(RangeInCentimeters);
 }
 
 
